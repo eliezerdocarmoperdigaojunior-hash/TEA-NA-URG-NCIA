@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Interativo - Comunicação com Paciente TEA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#e6f3ff;
+      --card:#ffffff;
+      --text:#1f2a3d;
+      --muted:#5c6c7a;
+      --accent:#0fa4b4;
+      --accent-2:#0c6aa8;
+      --accent-3:#7dd3fc;
+      --border:#d7e3ef;
+      --shadow:0 18px 50px rgba(12,106,168,0.15);
+    }
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0;
+      font-family:'Manrope','Segoe UI',system-ui,-apple-system,sans-serif;
+      background:radial-gradient(circle at 10% 20%,#f4fbff,var(--bg)),radial-gradient(circle at 90% 10%,#f0fff9,#e6f3ff);
+      color:var(--text);
+      line-height:1.6;
+      letter-spacing:-0.01em;
+    }
+    body::before{
+      content:'';
+      position:fixed;
+      inset:-40% 10% auto;
+      height:60vh;
+      background:radial-gradient(60% 60% at 20% 20%,rgba(12,106,168,0.15),transparent),radial-gradient(50% 50% at 80% 30%,rgba(15,164,180,0.12),transparent);
+      filter:blur(28px);
+      z-index:0;
+      pointer-events:none;
+    }
+    .container{
+      width:min(1200px,92vw);
+      margin:0 auto;
+      position:relative;
+      z-index:1;
+      padding:32px 0 40px;
+    }
+    .hero{
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(120deg,#0fa4b4,#0c6aa8);
+      color:#f8fdff;
+      padding:64px 0 56px;
+      box-shadow:0 10px 40px rgba(12,106,168,0.25);
+    }
+    .hero::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at 25% 30%,rgba(255,255,255,0.15),transparent 50%),radial-gradient(circle at 80% 20%,rgba(255,255,255,0.12),transparent 45%),radial-gradient(circle at 70% 80%,rgba(255,255,255,0.08),transparent 45%);
+      pointer-events:none;
+    }
+    .hero__grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:32px;
+      align-items:center;
+    }
+    .hero h1{
+      margin:12px 0 12px;
+      font-family:'Space Grotesk','Manrope',sans-serif;
+      font-size:clamp(1.9rem,3vw,2.5rem);
+      letter-spacing:-0.02em;
+    }
+    .hero p{opacity:0.94;margin:0;}
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.18);
+      color:#e7f8ff;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      font-size:0.75rem;
+      font-weight:700;
+    }
+    .hero__chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+    .chip{
+      background:rgba(255,255,255,0.14);
+      color:#f4fbff;
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.22);
+      font-weight:600;
+      box-shadow:0 8px 28px rgba(0,0,0,0.12);
+    }
+    .callout{
+      background:rgba(255,255,255,0.12);
+      border:1px solid rgba(255,255,255,0.22);
+      backdrop-filter:blur(12px);
+      padding:18px 20px;
+      border-radius:18px;
+      margin-top:12px;
+    }
+    .callout strong{color:#ffffff;}
+    .section{margin-top:36px;}
+    .section__header{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .section__hint{
+      color:var(--muted);
+      max-width:420px;
+    }
+    h2{
+      margin:8px 0 6px;
+      font-size:clamp(1.4rem,2.2vw,1.8rem);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+      gap:18px;
+      margin-top:18px;
+    }
+    .card{
+      background:var(--card);
+      border-radius:16px;
+      padding:18px;
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      transition:transform 0.35s ease,box-shadow 0.35s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .card::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(145deg,rgba(15,164,180,0.05),transparent 65%);
+      opacity:0;
+      transition:opacity 0.35s ease;
+    }
+    .card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 20px 50px rgba(15,164,180,0.16);
+    }
+    .card:hover::before{opacity:1;}
+    .card img{
+      width:100%;
+      border-radius:12px;
+      margin-bottom:12px;
+      object-fit:cover;
+      aspect-ratio:4/3;
+    }
+    .card h3{
+      margin:0 0 6px;
+      color:var(--accent);
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:10px;
+      background:#e8f7ff;
+      color:var(--accent-2);
+      font-weight:700;
+      font-size:0.82rem;
+    }
+    .list{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+    }
+    .flip-container{margin-top:14px;}
+    .flip-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:16px;
+      justify-items:center;
+    }
+    .flip-card{
+      width:min(360px,92vw);
+      height:420px;
+      perspective:1000px;
+      cursor:pointer;
+    }
+    .flip-inner{
+      position:relative;
+      width:100%;
+      height:100%;
+      transition:transform 0.8s;
+      transform-style:preserve-3d;
+    }
+    .flip-card:hover .flip-inner,
+    .flip-card.is-flipped .flip-inner{
+      transform:rotateY(180deg);
+    }
+    .flip-face{
+      position:absolute;
+      inset:0;
+      background:var(--card);
+      border-radius:20px;
+      padding:22px;
+      box-shadow:0 18px 45px rgba(0,0,0,0.12);
+      backface-visibility:hidden;
+    }
+    .flip-face.back{transform:rotateY(180deg);}
+    .breathing{
+      margin-top:22px;
+      text-align:center;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:28px 18px 30px;
+      box-shadow:var(--shadow);
+    }
+    .circle{
+      --scale:1;
+      width:140px;
+      height:140px;
+      margin:0 auto 14px;
+      border-radius:50%;
+      background:conic-gradient(from 90deg,#0fa4b4,#7dd3fc,#0c6aa8,#0fa4b4);
+      box-shadow:0 12px 35px rgba(12,106,168,0.25);
+      transform:scale(var(--scale));
+      transition:transform 1.5s ease,box-shadow 1.5s ease;
+      display:grid;
+      place-items:center;
+    }
+    .circle.playing{box-shadow:0 18px 48px rgba(12,106,168,0.28);}
+    .status{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 12px;
+      border-radius:12px;
+      background:#f0f7fd;
+      color:var(--muted);
+      font-weight:600;
+    }
+    button{
+      margin-top:12px;
+      padding:12px 18px;
+      border:none;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#fff;
+      font-weight:700;
+      letter-spacing:0.01em;
+      cursor:pointer;
+      box-shadow:0 12px 30px rgba(15,164,180,0.28);
+      transition:transform 0.2s ease,box-shadow 0.2s ease;
+    }
+    button:hover{transform:translateY(-2px);box-shadow:0 15px 35px rgba(15,164,180,0.32);}
+    button:active{transform:translateY(0);}
+    .curiosity{
+      background:var(--card);
+      border-radius:14px;
+      padding:16px;
+      border:1px solid var(--border);
+      box-shadow:0 8px 22px rgba(0,0,0,0.06);
+    }
+    .curiosity h3{margin-top:0;color:var(--accent-2);}
+    footer{
+      margin-top:48px;
+      padding:32px 18px 40px;
+      text-align:center;
+      background:#f7fbff;
+      color:var(--muted);
+      font-style:italic;
+    }
+    a{color:inherit;text-decoration:none;}
+    :focus-visible{outline:3px solid var(--accent-3);outline-offset:3px;}
+    @media (max-width:720px){
+      .hero{padding:46px 0 42px;}
+      .hero__grid{gap:20px;}
+      .card{padding:16px;}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container hero__grid">
+      <div>
+        <span class="eyebrow">Emergência com empatia</span>
+        <h1>🧩 Comunicação com Paciente Autista (TEA)</h1>
+        <p>Checklist rápido para ganhar confiança, reduzir sobrecarga sensorial e manter o atendimento seguro.</p>
+        <div class="hero__chips">
+          <span class="chip">Fale devagar e direto</span>
+          <span class="chip">Mostre o que fará</span>
+          <span class="chip">Regule o ambiente</span>
+        </div>
+        <div class="callout">
+          <strong>Regra de ouro:</strong> diga o que vai fazer, quando vai tocar e espere até 10s para resposta.
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="badge">Checklist imediato</div>
+          <ul class="list">
+            <li>Abaixe luz forte e ruídos</li>
+            <li>Use frases curtas e objetivas</li>
+            <li>Mostre materiais antes de usar</li>
+            <li>Combine um gesto para “pausa”</li>
+            <li>Ofereça acompanhante de referência</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="guia" class="section">
+      <div class="section__header">
+        <div>
+          <span class="eyebrow" style="color:var(--accent-2);background:#e9f7ff;">Pratique em 30s</span>
+          <h2>Guia de Comunicação</h2>
+        </div>
+        <p class="section__hint">Toque o cartão que resume os pontos-chave e compartilhe rapidamente com a equipe.</p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1581595219315-a187dd40c322?auto=format&fit=crop&w=900&q=80" alt="Profissional de saúde conversando com paciente" loading="lazy" decoding="async">
+          <h3>Linguagem direta</h3>
+          <p>Evite metáforas ou ironias. Dê uma instrução por vez e confirme entendimento.</p>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=80" alt="Profissional avisando paciente" loading="lazy" decoding="async">
+          <h3>Antecipação</h3>
+          <p>Avise antes de tocar ou iniciar um procedimento. Diga o que sentirá (frio, pressão, gelado).</p>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=900&q=80" alt="Relógio mostrando contagem de tempo" loading="lazy" decoding="async">
+          <h3>Tempo de resposta</h3>
+          <p>Aguarde até <strong>10 segundos</strong> antes de repetir. Evite sobrepor perguntas.</p>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=900&q=80" alt="Sala com luz suave" loading="lazy" decoding="async">
+          <h3>Redução sensorial</h3>
+          <p>Baixe luzes intensas, minimize ruídos e sirenes, limite número de pessoas na sala.</p>
+        </div>
+        <div class="card">
+  <img src="https://images.unsplash.com/photo-1494869042583-f6c911f04b4c?q=80&w=1170&auto=format&fit=crop" alt="Pessoa usando gestos e comunicação visual">
+  <h3>Comunicação visual</h3>
+  <p>Use gestos, desenhos rápidos ou mostre o material. Bons para quem usa CAA ou prefere visual.</p>
+</div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=900&q=80" alt="Profissional mantendo tom calmo" loading="lazy" decoding="async">
+          <h3>Postura tranquila</h3>
+          <p>Mantenha tom baixo e ritmo lento. Evite falar enquanto o paciente estiver em sobrecarga.</p>
+        </div>
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=900&q=80" alt="Profissional explicando etapas" loading="lazy" decoding="async">
+          <h3>Rotina previsível</h3>
+          <p>Explique as etapas e avise o que vem depois: “agora pressão, depois oxímetro”.</p>
+        </div>
+        <div class="card">
+  <img src="https://plus.unsplash.com/premium_photo-1743609273670-e04d3c4e71ad?q=80&w=1332&auto=format&fit=crop" alt="Profissional respeitando espaço pessoal do paciente">
+  <h3>Respeito ao espaço</h3>
+  <p>Peça permissão para tocar. Posicione-se lateralmente, evitando aproximação brusca.</p>
+</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__header">
+        <div>
+          <span class="eyebrow" style="color:var(--accent-2);background:#e9f7ff;">Cartões rápidos</span>
+          <h2>Cards Interativos</h2>
+        </div>
+        <p class="section__hint">Funciona em hover (desktop) ou toque (mobile).</p>
+      </div>
+      <div class="flip-container">
+        <div class="flip-grid">
+          <div class="flip-card" aria-label="Card comunicação eficaz">
+            <div class="flip-inner">
+              <div class="flip-face front">
+                <h3>🧩 Comunicação eficaz</h3>
+                <ul class="list">
+                  <li>Linguagem direta</li>
+                  <li>Antecipação</li>
+                  <li>Tempo de resposta</li>
+                  <li>Redução sensorial</li>
+                </ul>
+                <p><em>Passe o mouse ou toque</em></p>
+              </div>
+              <div class="flip-face back">
+                <h3>🧘 Pausa e autorregulação</h3>
+                <ul class="list">
+                  <li>Não é pessoal</li>
+                  <li>Respiração 4-7-8</li>
+                  <li>Reconheça o limite</li>
+                  <li>Peça apoio da equipe</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" aria-label="Card ambientação rápida">
+            <div class="flip-inner">
+              <div class="flip-face front">
+                <h3>🌿 Ambientação rápida</h3>
+                <ul class="list">
+                  <li>Luz baixa e fixa</li>
+                  <li>Ruído mínimo</li>
+                  <li>Fone/óculos se tiver</li>
+                  <li>Objeto de conforto</li>
+                </ul>
+                <p><em>Toque para ver ações extras</em></p>
+              </div>
+              <div class="flip-face back">
+                <h3>🚦 Evite gatilhos</h3>
+                <ul class="list">
+                  <li>Avise antes de apitos ou alarmes</li>
+                  <li>Cheque cheiros fortes (álcool, perfumes)</li>
+                  <li>Reduza trânsito de pessoas</li>
+                  <li>Combine um sinal de pausa</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card" aria-label="Card alinhamento de equipe">
+            <div class="flip-inner">
+              <div class="flip-face front">
+                <h3>👥 Equipe alinhada</h3>
+                <ul class="list">
+                  <li>Uma pessoa lidera a fala</li>
+                  <li>Frases curtas e concordadas</li>
+                  <li>Repetir o plano em voz baixa</li>
+                  <li>Registrar preferências</li>
+                </ul>
+                <p><em>Toque para ver o plano rápido</em></p>
+              </div>
+              <div class="flip-face back">
+                <h3>📋 Plano rápido</h3>
+                <ul class="list">
+                  <li>Função de cada um definida</li>
+                  <li>Evitar comentários paralelos</li>
+                  <li>Informar antes de trocar profissional</li>
+                  <li>Encerrar com reforço positivo</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__header">
+        <div>
+          <span class="eyebrow" style="color:var(--accent-2);background:#e9f7ff;">Ferramenta de campo</span>
+          <h2>Respiração guiada 4-7-8</h2>
+        </div>
+        <p class="section__hint">Use com o paciente ou com a equipe para reduzir tensão e retomar o foco.</p>
+      </div>
+      <div class="breathing">
+        <div class="circle" id="circle"></div>
+        <p id="text" role="status" aria-live="polite">Clique em Iniciar</p>
+        <div class="status">Modo silencioso recomendado • Luz baixa</div><br>
+        <button type="button" id="breath-btn" aria-pressed="false" onclick="toggleBreathing()">Iniciar</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__header">
+        <div>
+          <span class="eyebrow" style="color:var(--accent-2);background:#e9f7ff;">Contexto rápido</span>
+          <h2>Curiosidades sobre TEA</h2>
+        </div>
+        <p class="section__hint">Ajuda a explicar para colegas e acompanhantes o porquê das adaptações.</p>
+      </div>
+      <div class="grid">
+        <div class="curiosity">
+          <h3>🧠 Processamento sensorial</h3>
+          <p>Pessoas com TEA podem ter hiper ou hipo sensibilidade a luz, sons ou toque. Reduzir estímulos previne crises.</p>
+        </div>
+        <div class="curiosity">
+          <h3>📊 Prevalência</h3>
+          <p>Cerca de 1 em cada 36 crianças está no espectro autista. Você provavelmente atenderá alguém com TEA hoje.</p>
+        </div>
+        <div class="curiosity">
+          <h3>💬 Comunicação</h3>
+          <p>Muitos usam comunicação alternativa (figuras, apps, gestos). Sempre ofereça meios visuais e tempo extra.</p>
+        </div>
+        <div class="curiosity">
+          <h3>🏥 Ambiente hospitalar</h3>
+          <p>Ambientes caóticos aumentam ansiedade. Combine sinais, limite observadores e mantenha uma voz de referência.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    “O teu preparo transforma o caos em cuidado. Cuida de ti para cuidares do outro.”
+  </footer>
+
+  <script>
+    const flipCards = Array.from(document.querySelectorAll('.flip-card'));
+    flipCards.forEach(card => {
+      card.addEventListener('click', () => card.classList.toggle('is-flipped'));
+      card.addEventListener('mouseleave', () => card.classList.remove('is-flipped'));
+    });
+
+    const circle = document.getElementById('circle');
+    const text = document.getElementById('text');
+    const btn = document.getElementById('breath-btn');
+    let cycleInterval = null;
+    let stepTimers = [];
+
+    function clearSteps(){
+      stepTimers.forEach(clearTimeout);
+      stepTimers = [];
+    }
+
+    function runCycle(){
+      text.textContent = 'Inspire por 4 segundos';
+      circle.style.setProperty('--scale','1.22');
+      circle.classList.add('playing');
+      stepTimers.push(setTimeout(()=> {
+        text.textContent = 'Segure por 7 segundos';
+        circle.style.setProperty('--scale','1.28');
+      },4000));
+      stepTimers.push(setTimeout(()=> {
+        text.textContent = 'Expire por 8 segundos';
+        circle.style.setProperty('--scale','0.92');
+      },11000));
+      stepTimers.push(setTimeout(()=> {
+        text.textContent = 'Repita o ciclo';
+        circle.style.setProperty('--scale','1');
+      },19000));
+    }
+
+    function startBreathing(){
+      runCycle();
+      cycleInterval = setInterval(runCycle,19000);
+      btn.textContent = 'Pausar';
+      btn.setAttribute('aria-pressed','true');
+    }
+
+    function stopBreathing(){
+      clearInterval(cycleInterval);
+      clearSteps();
+      cycleInterval = null;
+      text.textContent = 'Clique em Iniciar';
+      circle.style.setProperty('--scale','1');
+      circle.classList.remove('playing');
+      btn.textContent = 'Iniciar';
+      btn.setAttribute('aria-pressed','false');
+    }
+
+    function toggleBreathing(){
+      if(cycleInterval){
+        stopBreathing();
+      }else{
+        startBreathing();
+      }
+    }
+  </script>
+</body>
+</html>
